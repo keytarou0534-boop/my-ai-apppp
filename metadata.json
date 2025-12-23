@@ -1,0 +1,8 @@
+{
+  "name": "ちゃっとあぷーり",
+  "description": "A secure invitation-only communication platform for administrators and customers featuring real-time chat, photo sharing, and AI-powered assistance.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
