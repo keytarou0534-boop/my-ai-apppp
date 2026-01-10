@@ -17,9 +17,11 @@ root.render(
 // PWA機能のためのService Worker登録
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // Viteビルド時は/my-ai-apppp/sw.jsのような絶対パス解決が必要になる場合があります
-    // Fix: Cast import.meta to any to access the 'env' property which is provided by Vite but not in standard TypeScript types
-    const swPath = (import.meta as any).env.BASE_URL + 'sw.js';
+    // import.meta.env が未定義の場合のエラーを回避するための安全なアクセス
+    const metaEnv = (import.meta as any).env;
+    const baseUrl = metaEnv ? metaEnv.BASE_URL : '/';
+    const swPath = baseUrl + 'sw.js';
+    
     navigator.serviceWorker.register(swPath).then(registration => {
       console.log('SW registered: ', registration);
     }).catch(registrationError => {
