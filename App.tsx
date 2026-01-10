@@ -34,11 +34,9 @@ const App: React.FC = () => {
     } catch (e) {
       console.error("Failed to load initial state", e);
     } finally {
-      // 読み込み完了後に少し間隔を置いて遷移をスムーズにする
       setTimeout(() => setIsInitializing(false), 500);
     }
 
-    // Network status listeners
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('online', handleOnline);
@@ -89,6 +87,13 @@ const App: React.FC = () => {
       }
       return [...prev, session];
     });
+  };
+
+  // 外部からのデータ同期用
+  const importAllData = (data: { invitations: Invitation[], sessions: ChatSession[] }) => {
+    if (data.invitations) setInvitations(data.invitations);
+    if (data.sessions) setSessions(data.sessions);
+    alert("データを正常にインポートしました。");
   };
 
   if (isInitializing) {
@@ -146,6 +151,7 @@ const App: React.FC = () => {
             onAddInvitation={addInvitation}
             sessions={sessions}
             onUpdateSession={updateSession}
+            onImportData={importAllData}
           />
         ) : (
           <CustomerChat 
